@@ -11,6 +11,7 @@ pylint = "*"
 black = "*"
 isort = "*"
 autoflake = "*"
+envparse = "*"
 
 [dev-packages]
 

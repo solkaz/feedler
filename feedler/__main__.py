@@ -3,15 +3,18 @@
 """
 Entry point for server
 """
-import os
-
 import uvicorn
+from envparse import Env
 
-host = os.getenv("FEEDLER_HOST", "0.0.0.0")
-port = int(os.getenv("FEEDLER_PORT", "8000"))
+env = Env(
+    FEEDLER_HOST=str,
+    FEEDLER_PORT=int,
+)
+
+env.read_envfile(".env")
 
 app_name = "app.main:app"
 
 
 if __name__ == "__main__":
-    uvicorn.run(app_name, host=host, port=port)
+    uvicorn.run(app_name, host=env("FEEDLER_HOST"), port=env("FEEDLER_PORT"))
