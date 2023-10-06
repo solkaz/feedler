@@ -4,7 +4,7 @@ Pydantic models for use with FastAPI
 
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 
 class FieldEnum(str, Enum):
@@ -55,5 +55,5 @@ class FeedRequest(BaseModel):
     Request object for `/v1/create-feed`.
     """
 
-    url: str
+    url: HttpUrl
     filters: list[Filter]
