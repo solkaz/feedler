@@ -12,6 +12,7 @@ black = "*"
 isort = "*"
 autoflake = "*"
 envparse = "*"
+sqlmodel = "*"
 
 [dev-packages]
 
