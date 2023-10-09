@@ -10,4 +10,8 @@ app_name = "app.main:app"
 
 
 if __name__ == "__main__":
-    uvicorn.run(app_name, host=env.env("FEEDLER_HOST"), port=env.env("FEEDLER_PORT"))
+    uvicorn.run(
+        app_name,
+        host=env.env(env.EnvVarEnum.FEEDLER_HOST),
+        port=env.env(env.EnvVarEnum.FEEDLER_PORT),
+    )
