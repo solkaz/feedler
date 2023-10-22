@@ -2,12 +2,12 @@
 Pydantic models for use with FastAPI
 """
 
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, HttpUrl
 
 
-class FieldEnum(str, Enum):
+class FieldEnum(StrEnum):
     """
     Field to filter. This should match an element within `<item>`.
 
@@ -20,7 +20,7 @@ class FieldEnum(str, Enum):
     DESCRIPTION = "description"
 
 
-class ConditionEnum(str, Enum):
+class ConditionEnum(StrEnum):
     """
     Defines how to test a query against a field.
     """
@@ -30,7 +30,7 @@ class ConditionEnum(str, Enum):
     EXCLUDES = "excludes"
 
 
-class MatchResultEnum(str, Enum):
+class MatchResultEnum(StrEnum):
     """
     Defines what to do with results that match the query.
     """
