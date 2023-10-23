@@ -4,9 +4,10 @@
 Entry point for server
 """
 import uvicorn
-from app.env import EnvVarEnum, env
 
-app_name = "app.main:app"
+from feedler.env import EnvVarEnum, env
+
+app_name = "feedler.app.main:app"
 
 
 if __name__ == "__main__":
