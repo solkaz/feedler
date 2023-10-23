@@ -13,11 +13,9 @@ class EnvVarEnum(str, Enum):
 
     FEEDLER_HOST = "FEEDLER_HOST"
     FEEDLER_PORT = "FEEDLER_PORT"
+    PROJECT_NAME = "PROJECT_NAME"
 
 
-env = Env(
-    FEEDLER_HOST=str,
-    FEEDLER_PORT=int,
-)
+env = Env(FEEDLER_HOST=str, FEEDLER_PORT=int, PROJECT_NAME=str)
 
 env.read_envfile(".env")
