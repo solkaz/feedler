@@ -12,7 +12,6 @@ black = "*"
 isort = "*"
 autoflake = "*"
 envparse = "*"
-sqlmodel = "*"
 psycopg2-binary = "*"
 
 [dev-packages]
