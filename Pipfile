@@ -13,6 +13,7 @@ isort = "*"
 autoflake = "*"
 envparse = "*"
 psycopg2-binary = "*"
+sqlalchemy = {extras = ["asyncio"], version = "*"}
 
 [dev-packages]
 
