@@ -39,21 +39,13 @@ class MatchResultEnum(StrEnum):
     EXCLUDE = "exclude"
 
 
-class Filter(BaseModel):
-    """
-    A filter rule to test `<item>`s against.
-    """
-
-    field: FieldEnum
-    condition: ConditionEnum
-    matchResult: MatchResultEnum
-    query: str
-
-
 class FeedRequest(BaseModel):
     """
     Request object for `/v1/create-feed`.
     """
 
     url: HttpUrl
-    filters: list[Filter]
+    field: FieldEnum
+    condition: ConditionEnum
+    matchResult: MatchResultEnum
+    query: str
