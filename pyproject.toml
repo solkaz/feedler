@@ -1,5 +1,6 @@
 [tool.pylint]
 extension-pkg-allow-list = "pydantic"
+ignore-paths = "alembic"
 
 [tool.pylint.format]
 max-line-length = "88"
