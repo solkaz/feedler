@@ -12,8 +12,9 @@ black = "*"
 isort = "*"
 autoflake = "*"
 envparse = "*"
-psycopg2-binary = "*"
 sqlalchemy = {extras = ["asyncio"], version = "*"}
+psycopg = {extras = ["binary"], version = "*"}
+alembic = "*"
 
 [dev-packages]
 
