@@ -15,6 +15,9 @@ envparse = "*"
 sqlalchemy = {extras = ["asyncio"], version = "*"}
 psycopg = {extras = ["binary"], version = "*"}
 alembic = "*"
+psycopg2-binary = "*"
+httpx = "*"
+defusedxml = "*"
 
 [dev-packages]
 

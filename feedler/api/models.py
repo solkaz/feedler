@@ -49,3 +49,24 @@ class FeedRequest(BaseModel):
     condition: ConditionEnum
     matchResult: MatchResultEnum
     query: str
+
+
+class TestFeedEntry(BaseModel):
+    """
+    Entry in a filtered RSS feed
+    """
+
+    title: str | None
+    description: str | None
+    link: str | None
+    author: str | None
+
+
+class TestFeedResponse(BaseModel):
+    """
+    Response object for `/v1/test-feed`.
+    """
+
+    original_count: int
+    filtered_count: int
+    items: list[TestFeedEntry]
