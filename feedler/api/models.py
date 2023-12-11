@@ -4,6 +4,7 @@ Pydantic models for use with FastAPI
 
 from enum import StrEnum
 
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, HttpUrl
 
 
@@ -70,3 +71,11 @@ class TestFeedResponse(BaseModel):
     original_count: int
     filtered_count: int
     items: list[TestFeedEntry]
+
+
+class XMLResponse(HTMLResponse):
+    """
+    Represents XML response
+    """
+
+    media_type = "application/rss+xml; charset=utf-8"

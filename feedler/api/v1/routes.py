@@ -8,10 +8,15 @@ from xml.etree.ElementTree import ParseError
 from defusedxml.ElementTree import fromstring
 from fastapi import APIRouter, Depends, HTTPException
 from httpx import AsyncClient
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from feedler.api.models import FeedRequest
-from feedler.api.utils import element_to_test_feed_entry, filter_rss_items
+from feedler.api.models import FeedRequest, XMLResponse
+from feedler.api.utils import (
+    construct_rss_feed,
+    element_to_test_feed_entry,
+    filter_rss_items,
+)
 from feedler.db import models as db_models
 from feedler.db.session import get_db_session
 from feedler.httpx import get_httpx_client
@@ -68,9 +73,40 @@ async def create_feed(
     return {"feed_id": feed.id}
 
 
-@router.get("/v1/feed/{feed_id}/contents")
-async def get_feed(feed_id: str):
+@router.get("/v1/feed/{feed_id}/contents", response_class=XMLResponse)
+async def get_feed(
+    feed_id: str,
+    session: AsyncSession = Depends(get_db_session),
+    client: AsyncClient = Depends(get_httpx_client),
+):
     """
     Get a feed. This should perform the actual filtering of the source RSS feed
     """
-    return {"message": f"TODO: return feed for {feed_id}"}
+    result = (
+        await session.execute(
+            select(db_models.Feed).where(db_models.Feed.id == feed_id)
+        )
+    ).first()
+    if result is None:
+        raise HTTPException(status_code=404, detail="Feed ID not found")
+
+    feed: db_models.Feed = result[0]
+    response = await client.get(
+        str(feed.url),
+    )
+    try:
+        rss_content = fromstring(response.text)
+    except ParseError as exc:
+        raise HTTPException(
+            status_code=400, detail="Improperly formatted RSS feed"
+        ) from exc
+
+    rss_channel = rss_content.find("channel")
+    if rss_channel is None:
+        raise HTTPException(status_code=400, detail="Improperly formatted RSS feed")
+
+    original_items = rss_channel.findall("item")
+    filtered_items = filter_rss_items(original_items, feed)
+    return XMLResponse(
+        content=(construct_rss_feed(rss_content, filtered_items)),
+    )

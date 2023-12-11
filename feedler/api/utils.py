@@ -2,6 +2,8 @@
 """
 API utils
 """
+from typing import cast
+from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
 from feedler.api.models import (
@@ -11,9 +13,12 @@ from feedler.api.models import (
     MatchResultEnum,
     TestFeedEntry,
 )
+from feedler.db import models as db_models
 
 
-def filter_rss_items(items: list[Element], feed_request: FeedRequest) -> list[Element]:
+def filter_rss_items(
+    items: list[Element], feed_request: FeedRequest | db_models.Feed
+) -> list[Element]:
     """
     Filter a list of RSS items based on a filter,
     provided either from a test feed or from the DB
@@ -74,3 +79,18 @@ def element_to_test_feed_entry(item: Element) -> TestFeedEntry:
         link=get_text_or_none_from_item(item, FieldEnum.LINK),
         author=get_text_or_none_from_item(item, FieldEnum.AUTHOR),
     )
+
+
+def construct_rss_feed(original_feed: Element, items: list[Element]) -> str:
+    """
+    Construct string representation of RSS feed with filtered elements
+    """
+    new_channel_el = Element("channel")
+    rss_channel = cast(Element, original_feed.find("channel"))
+
+    non_item_channel_elements = [i for i in rss_channel if i.tag != "item"]
+    for item in non_item_channel_elements + items:
+        new_channel_el.append(item)
+    original_feed.remove(rss_channel)
+    original_feed.append(new_channel_el)
+    return ElementTree.tostring(original_feed, encoding="utf-8")
