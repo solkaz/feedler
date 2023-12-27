@@ -7,14 +7,14 @@ from collections.abc import AsyncGenerator
 from sqlalchemy import exc
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from feedler.env import EnvVarEnum, env
+from feedler.settings import settings
 
 
 async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
     """
     Getter
     """
-    engine = create_async_engine(env(EnvVarEnum.FEEDLER_PG_URL))
+    engine = create_async_engine(settings.pg_url)
     factory = async_sessionmaker(engine)
 
     async with factory() as session:

@@ -6,10 +6,9 @@ Entry point for server
 from fastapi import FastAPI
 
 from feedler.api.v1.routes import router as v1_router
-from feedler.env import EnvVarEnum, env
 
 app = FastAPI(
-    title=env(EnvVarEnum.PROJECT_NAME),
+    title="Feedler API",
     docs_url="/api/docs",
     openapi_url="/api/openapi.json",
 )

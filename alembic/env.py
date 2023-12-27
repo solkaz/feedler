@@ -1,6 +1,6 @@
 from logging.config import fileConfig
 
-from envparse import Env
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
@@ -14,11 +14,24 @@ config = context.config  # type: ignore
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-env = Env(FEEDLER_PG_URL=str)
-env.read_envfile(".env")
+
+class Settings(BaseSettings):
+    """
+    Captures settings from a dotenv file
+    """
+
+    model_config = SettingsConfigDict(
+        env_prefix="FEEDLER_",
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
+    pg_url: str
+
+
+settings = Settings()
 
 # Set `sqlalchemy.url` from `.env`
-config.set_main_option("sqlalchemy.url", env("FEEDLER_PG_URL"))
+config.set_main_option("sqlalchemy.url", settings.pg_url)
 
 # add your model's MetaData object here
 # for 'autogenerate' support

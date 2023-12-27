@@ -11,13 +11,13 @@ pylint = "*"
 black = "*"
 isort = "*"
 autoflake = "*"
-envparse = "*"
 sqlalchemy = {extras = ["asyncio"], version = "*"}
 psycopg = {extras = ["binary"], version = "*"}
 alembic = "*"
 psycopg2-binary = "*"
 httpx = "*"
 defusedxml = "*"
+pydantic-settings = "*"
 
 [dev-packages]
 
