@@ -1,0 +1,27 @@
+header,
+form,
+.post-form-step {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+fieldset {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  width: 40%;
+  margin: 0 auto;
+  font-size: 110%;
+}

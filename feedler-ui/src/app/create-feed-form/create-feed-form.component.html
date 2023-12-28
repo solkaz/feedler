@@ -1,0 +1,52 @@
+<form class="pure-form" [formGroup]="feedForm" (ngSubmit)="handleSubmit()">
+  <fieldset>
+    <div class="field">
+      <label for="url">URL</label>
+      <input type="url" name="url" formControlName="url" id="url" required />
+    </div>
+
+    <div class="field">
+      <label for="field">RSS field</label>
+      <select
+        name="field"
+        formControlName="field"
+        id="field"
+        formControlName="field"
+      >
+        <option value="title">Title</option>
+        <option value="author">Author</option>
+        <option value="link">Link</option>
+        <option value="description">Description</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="condition">Match condition</label>
+      <select name="condition" formControlName="condition" id="condition">
+        <option value="exact match">Exact match</option>
+        <option value="contains">Contains</option>
+        <option value="excludes">Does not contain</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="query">Query</label>
+      <input
+        type="text"
+        name="query"
+        formControlName="query"
+        id="query"
+        required
+      />
+    </div>
+
+    <div class="field">
+      <label for="matchResult">Include/exclude results</label>
+      <select name="matchResult" formControlName="matchResult" id="matchResult">
+        <option value="include">Include</option>
+        <option value="exclude">Exclude</option>
+      </select>
+    </div>
+  </fieldset>
+  <button type="submit" class="pure-button">Submit</button>
+</form>
