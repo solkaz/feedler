@@ -25,7 +25,7 @@ def upgrade() -> None:
     op.create_table(  # type: ignore
         "feed",
         sa.Column("id", UUID, primary_key=True),
-        sa.Column("url", sa.String(50), nullable=False),
+        sa.Column("url", sa.String(2000), nullable=False),
         sa.Column("field", pgEnum(FieldEnum)),
         sa.Column("condition", pgEnum(ConditionEnum)),
         sa.Column("matchResult", pgEnum(MatchResultEnum)),
