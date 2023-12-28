@@ -24,7 +24,7 @@ from feedler.httpx import get_httpx_client
 router = APIRouter(prefix="/v1", tags=["v1"])
 
 
-@router.post("/v1/test-feed")
+@router.post("/test-feed")
 async def test_feed(
     request: FeedRequest, client: AsyncClient = Depends(get_httpx_client)
 ):
@@ -56,7 +56,7 @@ async def test_feed(
     }
 
 
-@router.post("/v1/create-feed")
+@router.post("/create-feed")
 async def create_feed(
     request: FeedRequest,
     session: AsyncSession = Depends(get_db_session),
@@ -73,7 +73,7 @@ async def create_feed(
     return {"feed_id": feed.id}
 
 
-@router.get("/v1/feed/{feed_id}/contents", response_class=XMLResponse)
+@router.get("/feed/{feed_id}/contents", response_class=XMLResponse)
 async def get_feed(
     feed_id: str,
     session: AsyncSession = Depends(get_db_session),
