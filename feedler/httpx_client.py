@@ -10,6 +10,6 @@ async def get_httpx_client() -> AsyncGenerator[AsyncClient, None]:
     """
     Getter
     """
-    httpx_client = AsyncClient()
-    yield httpx_client
-    await httpx_client.aclose()
+    async with AsyncClient() as httpx_client:
+        yield httpx_client
+        await httpx_client.aclose()

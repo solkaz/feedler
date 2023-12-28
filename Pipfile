@@ -18,6 +18,7 @@ psycopg2-binary = "*"
 httpx = "*"
 defusedxml = "*"
 pydantic-settings = "*"
+pytest = "*"
 
 [dev-packages]
 

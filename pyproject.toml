@@ -1,6 +1,7 @@
 [tool.pylint]
 extension-pkg-allow-list = "pydantic"
 ignore-paths = "alembic"
+disable = "C0114,C0116"
 
 [tool.pylint.format]
 max-line-length = "88"

@@ -19,7 +19,7 @@ from feedler.api.utils import (
 )
 from feedler.db import models as db_models
 from feedler.db.session import get_db_session
-from feedler.httpx import get_httpx_client
+from feedler.httpx_client import get_httpx_client
 
 router = APIRouter(prefix="/v1", tags=["v1"])
 
