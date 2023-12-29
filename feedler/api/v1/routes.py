@@ -12,7 +12,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from feedler.api.models import FeedRequest, XMLResponse
-from feedler.api.utils import (
+from feedler.api.xml_utils import (
     construct_rss_feed,
     element_to_test_feed_entry,
     filter_rss_items,

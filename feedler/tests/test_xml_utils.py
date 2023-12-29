@@ -6,7 +6,7 @@ from defusedxml.ElementTree import fromstring
 
 from feedler.api.models import ConditionEnum, FeedRequest, FieldEnum, MatchResultEnum
 from feedler.api.models import TestFeedEntry as _TestFeedEntry
-from feedler.api.utils import (
+from feedler.api.xml_utils import (
     construct_rss_feed,
     element_to_test_feed_entry,
     filter_rss_items,
