@@ -10,10 +10,19 @@ from feedler.api.models import (
     ConditionEnum,
     FeedRequest,
     FieldEnum,
+    InvalidRSSFeedException,
     MatchResultEnum,
     TestFeedEntry,
 )
 from feedler.db import models as db_models
+
+
+def get_rss_items_from_feed(root: Element, url: str) -> list[Element]:
+    rss_channel = root.find("channel")
+    if rss_channel is None:
+        raise InvalidRSSFeedException(url=url)
+
+    return rss_channel.findall("item")
 
 
 def filter_rss_items(

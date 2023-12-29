@@ -78,3 +78,13 @@ class XMLResponse(HTMLResponse):
     """
 
     media_type = "application/rss+xml; charset=utf-8"
+
+
+class InvalidRSSFeedException(Exception):
+    """
+    To be thrown if an RSS feed is invalid, either by not being valid XML,
+    or by lacking a `channel` element located under the root
+    """
+
+    def __init__(self, url: str):
+        self.url = url

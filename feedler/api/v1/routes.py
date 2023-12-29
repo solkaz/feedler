@@ -11,11 +11,12 @@ from httpx import AsyncClient
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from feedler.api.models import FeedRequest, XMLResponse
+from feedler.api.models import FeedRequest, InvalidRSSFeedException, XMLResponse
 from feedler.api.xml_utils import (
     construct_rss_feed,
     element_to_test_feed_entry,
     filter_rss_items,
+    get_rss_items_from_feed,
 )
 from feedler.db import models as db_models
 from feedler.db.session import get_db_session
@@ -32,19 +33,14 @@ async def test_feed(
     Test the results of creating a feed
     """
     # Perform a GET on the provided URL
-    response = await client.get(str(request.url))
+    url = str(request.url)
+    response = await client.get(url)
     try:
         rss_content = fromstring(response.text)
     except ParseError as exc:
-        raise HTTPException(
-            status_code=400, detail="Improperly formatted RSS feed"
-        ) from exc
+        raise InvalidRSSFeedException(url=url) from exc
 
-    rss_channel = rss_content.find("channel")
-    if rss_channel is None:
-        raise HTTPException(status_code=400, detail="Improperly formatted RSS feed")
-
-    original_items = rss_channel.findall("item")
+    original_items = get_rss_items_from_feed(rss_content, url)
     filtered_items = filter_rss_items(original_items, request)
 
     return {
@@ -89,20 +85,16 @@ async def get_feed(
         raise HTTPException(status_code=404, detail="Feed ID not found")
 
     feed: db_models.Feed = result[0]
-    response = await client.get(str(feed.url))
+    url = str(feed.url)
+    response = await client.get(url)
     try:
         rss_content = fromstring(response.text)
     except ParseError as exc:
-        raise HTTPException(
-            status_code=400, detail="Improperly formatted RSS feed"
-        ) from exc
+        raise InvalidRSSFeedException(url=url) from exc
 
-    rss_channel = rss_content.find("channel")
-    if rss_channel is None:
-        raise HTTPException(status_code=400, detail="Improperly formatted RSS feed")
-
-    original_items = rss_channel.findall("item")
+    original_items = get_rss_items_from_feed(rss_content, url)
     filtered_items = filter_rss_items(original_items, feed)
+
     return XMLResponse(
         content=(construct_rss_feed(rss_content, filtered_items)),
     )
