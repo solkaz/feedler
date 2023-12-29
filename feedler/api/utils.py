@@ -30,10 +30,10 @@ def filter_rss_items(
             if field_value is None:
                 continue
             if feed_request.matchResult == MatchResultEnum.INCLUDE:
-                if field_value == feed_request.query:
+                if field_value.lower() == feed_request.query:
                     to_return.append(item)
             else:
-                if field_value != feed_request.query:
+                if field_value.lower() != feed_request.query:
                     to_return.append(item)
     if feed_request.condition == ConditionEnum.CONTAINS:
         for item in items:
@@ -41,22 +41,10 @@ def filter_rss_items(
             if field_value is None:
                 continue
             if feed_request.matchResult == MatchResultEnum.INCLUDE:
-                if feed_request.query in field_value:
+                if feed_request.query in field_value.lower():
                     to_return.append(item)
             else:
-                if feed_request.query not in field_value:
-                    to_return.append(item)
-    if feed_request.condition == ConditionEnum.EXCLUDES:
-        for item in items:
-            field_value = get_text_or_none_from_item(item, feed_request.field)
-            if field_value is None:
-                to_return.append(item)
-                continue
-            if feed_request.matchResult == MatchResultEnum.INCLUDE:
-                if feed_request.query not in field_value:
-                    to_return.append(item)
-            else:
-                if feed_request.query in field_value:
+                if feed_request.query not in field_value.lower():
                     to_return.append(item)
     return to_return
 

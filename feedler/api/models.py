@@ -28,7 +28,6 @@ class ConditionEnum(StrEnum):
 
     EXACT_MATCH = "exact match"
     CONTAINS = "contains"
-    EXCLUDES = "excludes"
 
 
 class MatchResultEnum(StrEnum):
