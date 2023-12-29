@@ -32,9 +32,7 @@ async def test_feed(
     Test the results of creating a feed
     """
     # Perform a GET on the provided URL
-    response = await client.get(
-        str(request.url),
-    )
+    response = await client.get(str(request.url))
     try:
         rss_content = fromstring(response.text)
     except ParseError as exc:
@@ -91,9 +89,7 @@ async def get_feed(
         raise HTTPException(status_code=404, detail="Feed ID not found")
 
     feed: db_models.Feed = result[0]
-    response = await client.get(
-        str(feed.url),
-    )
+    response = await client.get(str(feed.url))
     try:
         rss_content = fromstring(response.text)
     except ParseError as exc:
