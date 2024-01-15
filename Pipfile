@@ -19,6 +19,7 @@ httpx = "*"
 defusedxml = "*"
 pydantic-settings = "*"
 pytest = "*"
+types-defusedxml = "*"
 
 [dev-packages]
 
