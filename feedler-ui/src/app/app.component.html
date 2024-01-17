@@ -2,7 +2,15 @@
   <h1>Feedler</h1>
 </header>
 <main>
-  <app-create-feed-form
-    (submitRequest)="handleSubmitRequest($event)"
-  ></app-create-feed-form>
+  <ng-container *ngIf="view === 'success' && feedId; else formView">
+    <app-feed-generated-view
+      feedId="{{ feedId }}"
+      (resetPage)="handleResetPage()"
+    ></app-feed-generated-view>
+  </ng-container>
+  <ng-template #formView>
+    <app-create-feed-form
+      (submitRequest)="handleSubmitRequest($event)"
+    ></app-create-feed-form>
+  </ng-template>
 </main>
