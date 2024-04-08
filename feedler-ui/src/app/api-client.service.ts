@@ -12,10 +12,9 @@ export class ApiClientService {
 
   createFeed(request: SubmitRequest) {
     return this.http
-      .post<{ feed_id: string }>(
-        `${environment.apiUrl}/api/v1/create-feed`,
-        request
-      )
+      .post<{
+        feed_id: string;
+      }>(`${environment.apiUrl}/api/v1/create-feed`, request)
       .pipe(map((response) => response.feed_id));
   }
 }
