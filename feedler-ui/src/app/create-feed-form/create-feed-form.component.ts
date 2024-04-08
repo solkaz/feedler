@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { validUrlValidator } from './util';
 import { SubmitRequest } from '../types';
@@ -11,19 +11,21 @@ import { SubmitRequest } from '../types';
   styleUrl: './create-feed-form.component.scss',
 })
 export class CreateFeedFormComponent {
-  @Output() submitRequest = new EventEmitter<SubmitRequest>();
+  submitRequest = output<SubmitRequest>();
 
   feedForm = this.formBuilder.group({
-    url: ['', validUrlValidator()],
-    field: ['title'],
-    condition: ['exact match'],
-    matchResult: ['include'],
+    url: ['', [Validators.required, validUrlValidator()]],
+    field: ['title', Validators.required],
+    condition: ['exact match', Validators.required],
+    matchResult: ['include', Validators.required],
     query: ['', Validators.compose([Validators.required])],
   });
 
   constructor(private formBuilder: FormBuilder) {}
 
   handleSubmit() {
-    this.submitRequest.emit(this.feedForm.value as any);
+    if (this.feedForm.valid) {
+      this.submitRequest.emit(this.feedForm.value as any);
+    }
   }
 }

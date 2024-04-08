@@ -2,9 +2,8 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 
 @Component({
@@ -16,8 +15,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedGeneratedViewComponent {
-  @Input({ required: true }) feedId!: string;
-  @Output() resetPage = new EventEmitter();
+  feedId = input.required<string>();
+  resetPage = output();
 
   onResetPageClicked() {
     this.resetPage.emit();
